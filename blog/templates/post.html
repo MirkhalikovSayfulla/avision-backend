@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="home">
+        <div class="home_background parallax-window" data-parallax="scroll"
+             data-image-src="{% static 'images/post.jpg' %}"
+             data-speed="0.8"></div>
+        <div class="home_content">
+            {% if item.tag.first %}
+                <div class="post_category trans_200"><a href="{% url 'tag' item.tag.first.id %}"
+                                                        class="trans_200">{{ item.tag.first }}</a></div>
+            {% endif %}
+            <div class="post_title">{{ item.name }}</div>
+        </div>
+    </div>
+    <!-- Page Content -->
+    <div class="page_content">
+        <div class="container">
+            <div class="row row-lg-eq-height">
+                <!-- Post Content -->
+                <div class="col-lg-9">
+                    <div class="post_content">
+                        <!-- Top Panel -->
+                        <div class="post_panel post_panel_top d-flex flex-row align-items-center justify-content-start">
+                            <div class="post_meta">
+                                {{ item.date_created|date:"Y-M-d" }}
+                            </div>
+                            <div class="post_share ml-sm-auto">
+                                <span>share</span>
+                                <ul class="post_share_list">
+                                    <li class="post_share_item"><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="fa fa-facebook"
+                                                                               aria-hidden="true"></i></a></li>
+                                    <li class="post_share_item"><a href="https://twitter.com/home?status={{ request.build_absolute_uri }}"><i class="fa fa-twitter"
+                                                                               aria-hidden="true"></i></a></li>
+                                    <li class="post_share_item"><a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}"><i class="fa fa-google"
+                                                                               aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Post Body -->
+                        <div class="post_body">
+                            {% if types == 'post' %}
+                                <figure>
+                                    <img src="{{ item.imageUrl }}" alt="">
+                                    <figcaption>{{ item.name|upper }}</figcaption>
+                                </figure>
+                            {% else %}
+                                <div class="section_content">
+                                    <div class="row">
+                                        <div class="col mb-4">
+                                            <div class="videos">
+                                                <div class="player_container">
+                                                    <div id="P1" class="player"
+                                                         data-property="{videoURL:'{{ item.link }}',containment:'self',startAt:0,mute:false,autoPlay:false,loop:false,opacity:1}">
+                                                    </div>
+                                                </div>
+                                                <div class="playlist">
+                                                    <div class="playlist_background"></div>
+                                                    {% for video in recent_videos %}
+                                                        <!-- Video -->
+                                                        <div class="video_container video_command active"
+                                                             onclick="jQuery('#P1').YTPChangeVideo({videoURL: '{{ video.link }}', mute:false, addRaster:true})">
+                                                            <div
+                                                                    class="video d-flex flex-row align-items-center justify-content-start">
+                                                                <div class="video_image">
+                                                                    <div><img src="{{ video.imageUrl }}" alt=""></div>
+                                                                </div>
+                                                                <div class="video_content">
+                                                                    <div class="video_title">{{ video.name }}
+                                                                    </div>
+                                                                    <div class="video_info">
+                                                                        <span>{{ video.view }} views </span><span>{{ video.date_created|date:"M-d" }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4><a target="_blank" href="https://www.youtube.com/watch?v={{ item.link }}">Watch
+                                    Youtube - {{ item.name }}</a></h4>
+                            {% endif %}
+                            {{ item.body|safe }}
+                            <!-- Post Tags -->
+                            <div class="post_tags">
+                                <ul>
+                                    {% for tag in item.tag.all %}
+                                        <li class="post_tag"><a href="{% url 'tag' tag.id %}">{{ tag.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Bottom Panel -->
+                        <div class="post_panel bottom_panel d-flex flex-row align-items-center justify-content-start">
+                            <div class="post_meta">{{ item.date_created|date:"Y-M-d" }}</div>
+                            <div class="post_share ml-sm-auto">
+                                <span>share</span>
+                                <ul class="post_share_list">
+                                    <li class="post_share_item"><a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"><i class="fa fa-facebook"
+                                                                               aria-hidden="true"></i></a></li>
+                                    <li class="post_share_item"><a href="https://twitter.com/home?status={{ request.build_absolute_uri }}"><i class="fa fa-twitter"
+                                                                               aria-hidden="true"></i></a></li>
+                                    <li class="post_share_item"><a href="https://plus.google.com/share?url={{ request.build_absolute_uri }}"><i class="fa fa-google"
+                                                                               aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Similar Posts -->
+                        <div class="similar_posts">
+                            <div class="grid clearfix">
+                                {% for item in recent_posts %}
+                                    <!-- Small Card With Image -->
+                                    <div class="card card_small_with_image grid-item">
+                                        <img class="card-img-top" src="{{ item.imageUrl }}"
+                                             alt="">
+                                        <div class="card-body">
+                                            <div class="card-title card-title-small"><a
+                                                    href="{% url 'post' item.id 'post' %}">{{ item.name }}</a></div>
+                                            <small class="post_meta">{{ item.date_created|date:"M-d" }}</small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <!-- Post Comment -->
+                            <div class="post_comment">
+                                <div class="post_comment_title">Post Comment</div>
+                                <div class="row">
+                                    <div class="col-xl-8">
+                                        <div class="post_comment_form_container">
+                                            <form action="" method="POST">
+                                                {% csrf_token %}
+                                                <input type="text" name="name" class="comment_input comment_input_name"
+                                                       placeholder="Your Name" required="required">
+                                                <input type="email" name="email"
+                                                       class="comment_input comment_input_email"
+                                                       placeholder="Your Email" required="required">
+                                                <textarea class="comment_text" name="message" placeholder="Your Comment"
+                                                          required="required"></textarea>
+                                                <button type="submit" class="comment_button">Post Comment</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Comments -->
+                            <div class="comments">
+                                {% if comments %}
+                                    <div class="comments_title">Comments <span>({{ comments.count }})</span></div>
+                                {% else %}
+                                    <div class="comments_title">No Comments!</div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-xl-8">
+                                        <div class="comments_container">
+                                            <ul class="comment_list">
+                                                {% for item in comments %}
+                                                    <li class="comment">
+                                                        <div class="comment_body">
+                                                            <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                                                <small>{{ item.name }} - {{ item.date_created }}</small>
+                                                            </div>
+                                                            <div class="comment_content">
+                                                                <p>{{ item.message }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sidebar -->
+                {% include 'sidebar.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

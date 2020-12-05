@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Home -->
+    <div class="home">
+        <div class="home_background parallax-window" data-parallax="scroll"
+             data-image-src="{% static 'images/category.jpg' %}" data-speed="0.8"></div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page_content">
+        <div class="container">
+            <div class="row row-lg-eq-height">
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <div class="main_content">
+                        <!-- Category -->
+                        <div class="category">
+                            <div class="section_panel d-flex flex-row align-items-center justify-content-start">
+                                <div class="section_title">Don't Miss</div>
+                                <div class="section_tags ml-auto">
+                                    <ul>
+                                        {% for tag in tags %}
+                                            <li><a href="{% url 'tag' tag.id %}">{{ tag.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="section_panel_more">
+                                    <ul>
+                                        <li>more
+                                            <ul>
+                                                {% for tag in tags %}
+                                                    <li><a href="{% url 'tag' tag.id %}">{{ tag.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% if object_list or second_list %}
+                                <div class="section_content">
+                                    <div class="grid clearfix">
+                                        {% if object_list %}
+                                            {% for item in object_list %}
+                                                <!-- Small Card With Image -->
+                                                <div class="card card_small_with_image grid-item">
+                                                    <img class="card-img-top" src="{{ item.imageUrl }}" alt="">
+                                                    <div class="card-body">
+                                                        <div class="card-title card-title-small"><a
+                                                                href="{% url 'post' item.id 'post' %}">{{ item.name }}</a>
+                                                        </div>
+                                                        <small class="post_meta">{{ item.date_created|date:"Y-M" }}</small>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if second_list %}
+                                            {% for item in second_list %}
+                                                <!-- Small Card With Image -->
+                                                <div class="card card_small_with_image grid-item">
+                                                    <img class="card-img-top" src="{{ item.imageUrl }}" alt="">
+                                                    <div class="card-body">
+                                                        <div class="card-title card-title-small"><a
+                                                                href="{% url 'post' item.id 'video' %}">{{ item.name }}</a>
+                                                        </div>
+                                                        <small class="post_meta">{{ item.date_created|date:"Y-M" }}</small>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if object_list.first %}
+                                            <div class="card card_default card_default_with_background grid-item">
+                                                <div class="card_background"
+                                                     style="background-image:url('{{ object_list.first.imageUrl }}')"></div>
+                                                <div class="card-body">
+                                                    <div class="card-title card-title-small"><a
+                                                            href="{% url 'post' object_list.first.id 'post' %}">{{ object_list.first.name }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if second_list.first %}
+                                            <div class="card card_default card_default_with_background grid-item">
+                                                <div class="card_background"
+                                                     style="background-image:url('{{ second_list.first.imageUrl }}')"></div>
+                                                <div class="card-body">
+                                                    <div class="card-title card-title-small"><a
+                                                            href="{% url 'post' second_list.first.id 'video' %}">{{ second_list.first.name }}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <blockquote class="load_more">
+                                    <div id="load_more" class="load_more_button text-center trans_200">Load More</div>
+                                </blockquote>
+                            {% else %}
+                                <h2 class="mt-5 mb-3 text-dark text-center">No POST :(</h2>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- Sidebar -->
+                {% include 'sidebar.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

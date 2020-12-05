@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="home">
+
+        <div class="home_slider_container">
+            <div class="owl-carousel owl-theme home_slider">
+                {% for home_new in home_news %}
+                    <!-- Slider Item -->
+                    <div class="owl-item">
+                        <div class="home_slider_background"
+                             style="background-image:url('{{ home_new.imageUrl }}')"></div>
+                        <div class="home_slider_content_container">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="home_slider_content">
+                                            <div class="home_slider_item_category trans_200"><a
+                                                    href="{% url 'tag' home_new.tag.first.id %}"
+                                                    class="trans_200">{{ home_new.tag.first }}</a>
+                                            </div>
+                                            <div class="home_slider_item_title">
+                                                <a href="{% url 'post' home_new.id 'post' %}">{{ home_new.name }}</a>
+                                            </div>
+                                            <div class="home_slider_item_link">
+                                                <a href="{% url 'post' home_new.id 'post' %}" class="trans_200">Continue
+                                                    Reading
+                                                    <svg version="1.1" id="link_arrow_1"
+                                                         xmlns="http://www.w3.org/2000/svg"
+                                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                         width="19px"
+                                                         height="13px" viewBox="0 0 19 13"
+                                                         enable-background="new 0 0 19 13"
+                                                         xml:space="preserve">
+                                                <polygon fill="#FFFFFF"
+                                                         points="12.475,0 11.061,0 17.081,6.021 0,6.021 0,7.021 17.038,7.021 11.06,13 12.474,13 18.974,6.5 "/>
+                                            </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Similar Posts -->
+                        <div class="similar_posts_container">
+                            <div class="container">
+                                <div class="row d-flex flex-row align-items-end">
+                                    {% for similar_home_new in home_news %}
+                                        <!-- Similar Post -->
+                                        <div class="col-lg-3 col-md-6 similar_post_col">
+                                            <div class="similar_post trans_200">
+                                                <a href="{% url 'post' similar_home_new.id 'post' %}">{{ similar_home_new.name }}</a>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="home_slider_next_container">
+                                <div class="home_slider_next"
+                                     style="background-image:url('{{ blog_news_basic_dm.first.imageUrl }}');background-position: center;">
+                                    <div class="home_slider_next_background trans_400"></div>
+                                    <div class="home_slider_next_content trans_400">
+                                        <div class="home_slider_next_title">next</div>
+                                        <div class="home_slider_next_link">
+                                            <a href="{% url 'post' blog_news_basic_dm.first.id 'post' %}">{{ blog_news_basic_dm.first.name }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+
+            <div class="custom_nav_container home_slider_nav_container">
+                <div class="custom_prev custom_prev_home_slider">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         x="0px"
+                         y="0px" width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12"
+                         xml:space="preserve">
+                    <polyline fill="#FFFFFF"
+                              points="0,5.61 5.609,0 7,0 7,1.438 2.438,6 7,10.563 7,12 5.609,12 -0.002,6.39 "/>
+                </svg>
+                </div>
+                <ul id="custom_dots" class="custom_dots custom_dots_home_slider">
+                    <li class="custom_dot custom_dot_home_slider active"><span></span></li>
+                    <li class="custom_dot custom_dot_home_slider"><span></span></li>
+                    <li class="custom_dot custom_dot_home_slider"><span></span></li>
+                </ul>
+                <div class="custom_next custom_next_home_slider">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         x="0px"
+                         y="0px" width="7px" height="12px" viewBox="0 0 7 12" enable-background="new 0 0 7 12"
+                         xml:space="preserve">
+                    <polyline fill="#FFFFFF"
+                              points="6.998,6.39 1.389,12 -0.002,12 -0.002,10.562 4.561,6 -0.002,1.438 -0.002,0 1.389,0 7,5.61 "/>
+                </svg>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Page Content -->
+
+    <div class="page_content">
+        <div class="container">
+            <div class="row row-lg-eq-height">
+
+                <!-- Main Content -->
+
+                <div class="col-lg-9">
+                    <div class="main_content">
+
+                        <!-- Blog Section - Don't Miss -->
+
+                        <div class="blog_section">
+                            <div class="section_panel d-flex flex-row align-items-center justify-content-start">
+                                <div class="section_title">Don't Miss</div>
+                                <div class="section_tags ml-auto">
+                                    <ul>
+                                        {% for tag in dm_tags %}
+                                            <li><a href="{% url 'tag' tag.id %}">{{ tag.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="section_panel_more">
+                                    <ul>
+                                        <li>more
+                                            <ul>
+                                                {% for tag in dm_tags %}
+                                                    <li><a href="{% url 'tag' tag.id %}">{{ tag.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="section_content">
+                                <div class="grid clearfix">
+                                    {% for blog_new in blog_news_basic_dm %}
+                                        <!-- Largest Card With Image -->
+                                        <div class="card card_largest_with_image grid-item">
+                                            <img class="card-img-top" src="{{ blog_new.imageUrl }}" alt="">
+                                            <div class="card-body">
+                                                <div class="card-title"><a
+                                                        href="{% url 'post'  blog_new.id 'post' %}">{{ blog_new.name }}</a>
+                                                </div>
+                                                <p class="card-text">{{ blog_new.body|safe|truncatewords_html:10 }}</p>
+                                                <small class="post_meta">{{ blog_new.date_created|date }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% for item in home_news %}
+                                        <!-- Small Card With Background -->
+                                        <div class="card card_default card_small_with_background grid-item">
+                                            <div class="card_background"
+                                                 style="background-image:url('{{ item.imageUrl }}')"></div>
+                                            <div class="card-body">
+                                                <div class="card-title card-title-small"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                                <small class="post_meta">{{ item.date_created|date }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% for item in blog_news_external_dm %}
+                                        <!-- Small Card With Image -->
+                                        <div class="card card_small_with_image grid-item">
+                                            <img class="card-img-top" src="{{ item.imageUrl }}"
+                                                 alt="{{ item.image.name }}">
+                                            <div class="card-body">
+                                                <div class="card-title card-title-small"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                                <small class="post_meta">{{ item.date_created|date:'M-d' }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blog Section - What's Trending -->
+
+                        <div class="blog_section">
+                            <div class="section_panel d-flex flex-row align-items-center justify-content-start">
+                                <div class="section_title">What's Trending</div>
+                                <div class="section_tags ml-auto">
+                                    <ul>
+                                        {% for wt_tag in wt_tags %}
+                                            <li><a href="{% url 'tag' wt_tag.id %}">{{ wt_tag.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="section_panel_more">
+                                    <ul>
+                                        <li>more
+                                            <ul>
+                                                {% for wt_tag in wt_tags %}
+                                                    <li><a href="{% url 'tag' wt_tag.id %}">{{ wt_tag.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="section_content">
+                                <div class="grid clearfix">
+
+                                    {% for item in blog_news_basic_wt %}
+                                        <!-- Large Card With Image -->
+                                        <div class="card grid-item card_large_with_image">
+                                            <img class="card-img-top" src="{{ item.imageUrl }}" alt="">
+                                            <div class="card-body">
+                                                <div class="card-title"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                                <p class="card-text">{{ item.body|safe|truncatewords_html:10 }}</p>
+                                                <small class="post_meta">{{ item.date_created|date }}</small>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                    {% for item in blog_news_external_wt %}
+                                        <!-- Default Card With Image -->
+                                        <div class="card card_small_with_image grid-item">
+                                            <img class="card-img-top" src="{{ item.imageUrl }}" alt="">
+                                            <div class="card-body">
+                                                <div class="card-title card-title-small"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                                <small class="post_meta">{{ item.date_created|date }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+
+
+                                    {% for item in trend_post %}
+                                        <div class="card bg-dark card_default card_default_with_background grid-item">
+                                            <div class="card_background"
+                                                 style="background-image:url('{{ item.imageUrl }}')">
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="card-title card-title-small"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Blog Section - Videos -->
+
+                        <div class="blog_section">
+                            <div class="section_panel d-flex flex-row align-items-center justify-content-start">
+                                <div class="section_title">Most Popular Videos</div>
+                            </div>
+                            <div class="section_content">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="videos">
+                                            <div class="player_container">
+                                                <div id="P1" class="player"
+                                                     data-property="{videoURL:'{{ recent_videos.first.link }}',containment:'self',startAt:0,mute:false,autoPlay:false,loop:false,opacity:1}">
+                                                </div>
+                                            </div>
+                                            <div class="playlist">
+                                                <div class="playlist_background"></div>
+                                                {% for video in recent_videos %}
+                                                    <!-- Video -->
+                                                    <div class="video_container video_command active"
+                                                         onclick="jQuery('#P1').YTPChangeVideo({videoURL: '{{ video.link }}', mute:false, addRaster:true})">
+                                                        <div
+                                                                class="video d-flex flex-row align-items-center justify-content-start">
+                                                            <div class="video_image">
+                                                                <div><img src="{{ video.imageUrl }}" class="img-fluid"
+                                                                          alt=""></div>
+                                                            </div>
+                                                            <div class="video_content">
+                                                                <div class="video_title">{{ video.name }}
+                                                                </div>
+                                                                <div class="video_info">
+                                                                    <span>{{ video.view }} views </span><span>{{ video.date_created|date:"M-d" }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blog Section - Latest -->
+
+                        <div class="blog_section">
+                            <div class="section_panel d-flex flex-row align-items-center justify-content-start">
+                                <div class="section_title">Latest Articles</div>
+                            </div>
+                            <div class="section_content">
+                                <div class="grid clearfix">
+
+                                    {% for item in recent_posts %}
+                                        <!-- Small Card With Image -->
+                                        <div class="card card_small_with_image grid-item">
+                                            <img class="card-img-top" src="{{ item.imageUrl }}" alt="">
+                                            <div class="card-body">
+                                                <div class="card-title card-title-small"><a
+                                                        href="{% url 'post'  item.id 'post' %}">{{ item.name }}</a>
+                                                </div>
+                                                <small class="post_meta">{{ item.date_created|date }}</small>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+
+
+                                    <!-- Small Card With Background -->
+                                    <div class="card card_default card_small_with_background grid-item">
+                                        <div class="card_background"
+                                             style="background-image:url('{{ recent_posts.first.imageUrl }}')"></div>
+                                        <div class="card-body">
+                                            <div class="card-title card-title-small"><a
+                                                    href="{% url 'post'  recent_posts.first.id 'post' %}">{{ recent_posts.first.name }}</a>
+                                            </div>
+                                            <small class="post_meta">{{ recent_posts.first.date_created|date }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="load_more">
+                            <div id="load_more" class="load_more_button text-center trans_200">Load More</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- SideBar -->
+                {% include 'sidebar.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

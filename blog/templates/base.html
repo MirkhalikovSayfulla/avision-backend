@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Avision | {{ title }}</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Demo project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/bootstrap4/bootstrap.min.css' %}">
+    <link href="{% static 'plugins/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/OwlCarousel2-2.2.1/animate.css' %}">
+    <link rel="stylesheet" type="text/css"
+          href="{% static 'plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+    {% if pageName == 'Contact' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/contact.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/contact_responsive.css' %}">
+    {% endif %}
+    {% if pageName == 'Category'%}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/category.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/category_responsive.css' %}">
+    {% endif %}
+    {% if pageName == 'Post'%}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/post.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/post_responsive.css' %}">
+    {% endif %}
+</head>
+<body>
+
+<div class="super_container">
+
+    <!-- Header -->
+
+    <header class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="header_content d-flex flex-row align-items-center justify-content-start">
+                        <div class="logo"><a href="{% url 'home' %}">avision</a></div>
+                        <nav class="main_nav">
+                            <ul>
+                                <li {% if pageName == 'Home' %}
+                                    class="active"
+                                {% endif %} ><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'category' 'Fashion' %}">Fashion</a></li>
+                                <li><a href="{% url 'category' 'Gadgets' %}">Gadgets</a></li>
+                                <li><a href="{% url 'category' 'Lifestyle' %}">Lifestyle</a></li>
+                                <li><a href="{% url 'category' 'Video' %}">Video</a></li>
+                                <li {% if pageName == 'Contact' %}class="active" {% endif %}>
+                                    <a href="{% url 'contact' %}">
+                                        Contact
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div class="search_container ml-auto">
+                            <div class="weather">
+                                <div class="temperature">{{temperature}}</div>
+                                {% if icon == 'Ясно' %}
+                                    <img class="weather_icon" src="{% static 'images/sunny.png' %}" alt="">
+                                {% elif icon == 'Переменная облачность' %}
+                                    <img class="weather_icon" src="{% static 'images/partly-cloudy.png' %}">
+                                {% else %}
+                                    <img class="weather_icon" src="{% static 'images/cloud.png' %}" alt="">
+                                {% endif %}
+                                <!-- 
+                                    Icons Name:
+                                        1. rain.png
+                                        2. cloud.png
+                                        3. sunny.png
+                                        4. snow.png
+                                 -->
+                            </div>
+                            <form action="{% url 'search' %}" method="get">
+                                <input type="search" name="q" class="header_search_input" required="required"
+                                       placeholder="Type to Search...">
+                                <img class="header_search_icon" src="{% static 'images/search.png' %}" alt="">
+                            </form>
+
+                        </div>
+                        <div class="hamburger ml-auto menu_mm">
+                            <i class="fa fa-bars trans_200 menu_mm" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu -->
+
+    <div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+        <div class="menu_close_container">
+            <div class="menu_close">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="logo menu_mm"><a href="{% url 'home' %}">Avision</a></div>
+        <div class="search">
+            <form action="{% url 'search' %}" method="get">
+                <input type="search" name="q" class="header_search_input menu_mm" required="required"
+                       placeholder="Type to Search...">
+                <img class="header_search_icon menu_mm" src="{% static 'images/search_2.png' %}" alt="">
+            </form>
+        </div>
+        <nav class="menu_nav">
+            <ul class="menu_mm">
+                <li class="menu_mm"><a href="{% url 'home' %}">home</a></li>
+                <li class="menu_mm"><a href="{% url 'category' 'Fashion' %}">Fashion</a></li>
+                <li class="menu_mm"><a href="{% url 'category' 'Gadgets' %}">Gadgets</a></li>
+                <li class="menu_mm"><a href="{% url 'category' 'Lifestyle' %}">Lifestyle</a></li>
+                <li class="menu_mm"><a href="{% url 'category' 'Video' %}">Video</a></li>
+                <li class="menu_mm"><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- Footer -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row row-lg-eq-height">
+                <div class="col-lg-9 order-lg-1 order-2">
+                    <div class="footer_content">
+                        <div class="footer_logo"><a href="#">avision</a></div>
+                        <div class="footer_social">
+                            <ul>
+                                <li class="footer_social_facebook"><a href="#"><i class="fa fa-facebook"
+                                                                                  aria-hidden="true"></i></a></li>
+                                <li class="footer_social_twitter"><a href="#"><i class="fa fa-twitter"
+                                                                                 aria-hidden="true"></i></a></li>
+                                <li class="footer_social_pinterest"><a href="#"><i class="fa fa-pinterest"
+                                                                                   aria-hidden="true"></i></a></li>
+                                <li class="footer_social_vimeo"><a href="#"><i class="fa fa-vimeo"
+                                                                               aria-hidden="true"></i></a></li>
+                                <li class="footer_social_instagram"><a href="#"><i class="fa fa-instagram"
+                                                                                   aria-hidden="true"></i></a></li>
+                                <li class="footer_social_google"><a href="#"><i class="fa fa-google"
+                                                                                aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 order-lg-2 order-1">
+                    <div class="subscribe">
+                        <div class="subscribe_background"></div>
+                        <div class="subscribe_content">
+                            <div class="subscribe_title">Subscribe</div>
+                            <form action="{% url 'subscribe' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="email" class="sub_input" name="email" placeholder="Your Email" required="required">
+                                <button class="sub_button">
+                                    <svg version="1.1" id="link_arrow_1" xmlns="http://www.w3.org/2000/svg"
+                                         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                         width="19px" height="13px" viewBox="0 0 19 13"
+                                         enable-background="new 0 0 19 13" xml:space="preserve">
+										<polygon fill="#FFFFFF"
+                                                 points="12.475,0 11.061,0 17.081,6.021 0,6.021 0,7.021 17.038,7.021 11.06,13 12.474,13 18.974,6.5 "/>
+									</svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'plugins/jquery.mb.YTPlayer-3.1.12/jquery.mb.YTPlayer.js' %}"></script>
+<script src="{% static 'plugins/easing/easing.js' %}"></script>
+<script src="{% static 'plugins/masonry/masonry.js' %}"></script>
+<script src="{% static 'plugins/masonry/images_loaded.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'plugins/parallax-js-master/parallax.min.js' %}"></script>
+{% if pageName == 'Contact' %}
+    <script src="{% static 'js/contact.js' %}"></script>
+{% endif %}
+{% if pageName == 'Category' %}
+    <script src="{% static 'js/category.js' %}"></script>
+{% endif %}
+{% if pageName == 'Post' %}
+    <script src="{% static 'js/post.js' %}"></script>
+{% endif %}
+
+</body>
+</html>
